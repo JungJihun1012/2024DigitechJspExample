@@ -1,0 +1,9 @@
+INDEX VERSION 1.134
+C:\Jsp\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\400329866.index
+\ShoppingMVC2\src\main\java
+C:\Jsp\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\2130227312.index
+\Shopping2\src\main\java
+C:\Jsp\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4124047220.index
+\ShoppingMVC\src\main\java
+C:\Jsp\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\848204464.index
+\Library\src\main\java

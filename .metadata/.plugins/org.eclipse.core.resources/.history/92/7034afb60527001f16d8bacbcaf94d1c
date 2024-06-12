@@ -1,0 +1,3 @@
+drop table member_tbl_001;
+create table member_tbl_001(
+)

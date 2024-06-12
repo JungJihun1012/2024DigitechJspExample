@@ -1,0 +1,4 @@
+drop table member_tbl_001;
+create table member_tbl_001(
+	cust_no number(6) primary key
+)
