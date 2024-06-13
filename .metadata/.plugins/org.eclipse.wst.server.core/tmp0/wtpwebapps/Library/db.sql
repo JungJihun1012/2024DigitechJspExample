@@ -124,3 +124,5 @@ order by rent_ymd, rent_no, rent_book
 
 select rownum, book_code, book_name, case book_type when 'A' then '에세이' when 'B' then '인문' when 'C' then '소설' end book_type, book_author, in_date, case stat_fg when '0' then '대여가능' when '1' then '대여중' end stat_fg
 from book_tbl_001
+
+select sysdate rent_ymd, sysdate+7 close, to_char(nvl(max(rent_no), 0) +1, 'fm0000') from rental_tbl_001 where rent_ymd = sysdate;

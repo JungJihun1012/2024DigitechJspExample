@@ -1,0 +1,62 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import VO.MemberVO;
+import utill.DBConnection;
+
+public class MemberDAO {
+	Connection conn = DBConnection.getConnection();
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	
+	public int insertMember(MemberVO vo) {
+		int result = 0;
+		
+		try {
+			String sql = "INSERT INTO member_tbl_001 VALUES((SELECT NVL(MAX(cust_no), 100000)+1 cust_no FROM member_tbl_001), ?, ?, ?, ?, ?";
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setString(1, vo.getCust_name());
+			stmt.setString(2, vo.getPhone());
+			stmt.setString(3, vo.getAddress());
+			stmt.setDate(4, vo.getJoin_date());
+			stmt.setString(5, vo.getStat_fg());
+			
+			result = stmt.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			DBConnection.close(rs, stmt, conn);
+		}
+		return result;
+	}
+	
+	public int getCustno() {
+		int custno = 0;
+		try {
+			
+			String sql = "SELECT NVL(MAX(rent_ymd), 100000)+1 cust_no from member_tbl_001";
+			stmt = conn.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				custno = rs.getInt("cust_no");
+			}
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			DBConnection.close(rs, stmt, conn);
+		}
+		
+		return custno;
+		
+	}
+}
