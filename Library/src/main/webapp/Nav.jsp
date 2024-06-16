@@ -13,7 +13,7 @@
 	<nav class="nav">
 		<ul>
 			<li><a href="Register">대여도서 목록</a></li>
-			<li><a href="">회원정보관리</a></li>
+			<li><a href="GetEditMember">회원정보관리</a></li>
 			<li><a href="">보유도서관리</a></li>
 			<li><a href="">도서대여현황</a></li>
 			<li><a href="index.jsp">홈으로</a></li>

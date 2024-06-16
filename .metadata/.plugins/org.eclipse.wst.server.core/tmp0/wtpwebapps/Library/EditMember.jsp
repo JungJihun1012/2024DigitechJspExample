@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+    	int custno = (int)request.getAttribute("cust_no");
+    %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,16 +16,16 @@
 	<%@include file="Nav.jsp" %>
 	<section class="section">
 	<div align="center" style="margin: 0 auto;">
-    대여도서 등록
+    회원정보관리(수정)
 </div>
 <br/> <br/>
 <form name="form" action="RegisterServlet" method="post" onsubmit="return validate()">
     <input name="action" type="hidden" value="register" />
-    <table style="width: 400px;">
+    <table style="width: 400px;" border="1">
         <tr>
             <th>회원번호</th>
             <td>
-                <input name="cust_no" type="text"/>
+                <input name="cust_no" type="text" value="<%=custno %>" disabled	/>
             </td>
         </tr>
         <tr>
@@ -52,7 +55,7 @@
         <tr>
         	<th>상태구분</th>
         	<td>
-        		<input name="stat_fg" type="submit"/>
+        		option
         	</td>
         </tr>
         <tr>

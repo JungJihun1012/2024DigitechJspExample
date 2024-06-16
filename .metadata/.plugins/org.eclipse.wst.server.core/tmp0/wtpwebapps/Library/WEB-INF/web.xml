@@ -29,4 +29,24 @@
     <servlet-name>Register</servlet-name>
     <url-pattern>/Register</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetEditMember</display-name>
+    <servlet-name>GetEditMember</servlet-name>
+    <servlet-class>view.GetEditMember</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetEditMember</servlet-name>
+    <url-pattern>/GetEditMember</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EditMember</display-name>
+    <servlet-name>EditMember</servlet-name>
+    <servlet-class>view.EditMember</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditMember</servlet-name>
+    <url-pattern>/EditMember</url-pattern>
+  </servlet-mapping>
 </web-app>

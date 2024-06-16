@@ -35,7 +35,7 @@ create table rental_tbl_001
 
 insert into member_tbl_001
 values
-(100001, '김유정', '010-1111-2222', '서울시 용산구', '20180501', 0);
+(100001, '김유정', '010-1111-2222', '서울시 용산구', '20180501', '0');
 
 insert into member_tbl_001
 values

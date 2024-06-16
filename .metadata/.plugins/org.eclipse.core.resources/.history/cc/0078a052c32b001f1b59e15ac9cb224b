@@ -1,0 +1,9 @@
+package DAO;
+
+import java.sql.Connection;
+
+import utill.DBConnection;
+
+public class EditMemberDAO {
+	Connection conn = DBConnection.getConnection();
+}

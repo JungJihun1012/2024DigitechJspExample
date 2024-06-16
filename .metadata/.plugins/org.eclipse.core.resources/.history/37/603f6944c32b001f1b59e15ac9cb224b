@@ -1,0 +1,7 @@
+package DAO;
+
+import utill.DBConnection;
+
+public class EditMemberDAO {
+	Connection conn = DBConnection.getConnection()
+}
