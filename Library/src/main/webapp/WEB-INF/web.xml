@@ -49,4 +49,14 @@
     <servlet-name>EditMember</servlet-name>
     <url-pattern>/EditMember</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Calender</display-name>
+    <servlet-name>Calender</servlet-name>
+    <servlet-class>view.Calender</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Calender</servlet-name>
+    <url-pattern>/Calender</url-pattern>
+  </servlet-mapping>
 </web-app>

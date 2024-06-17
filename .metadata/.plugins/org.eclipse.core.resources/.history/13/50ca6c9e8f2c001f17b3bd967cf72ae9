@@ -1,0 +1,33 @@
+package DAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import utill.DBConnection;
+
+public class CalenderDAO {
+	Connection conn = DBConnection.getConnection();
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	
+	public String getJoin() {
+		String join = null;
+		try {
+			String sql = "select nvl(max(join_date), yyyymmdd) join_date from member_tbl_001";
+			stmt = conn.prepareStatement(sql);
+			
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				join = rs.getString("join_date");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}finally {
+			DBConnection.close(rs, stmt, conn);
+		}
+		
+		return join;
+	}
+}

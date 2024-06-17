@@ -1,9 +1,0 @@
-drop table member_tbl_001;
-create table member_tbl_001(
-	cust_no number(6) primary key,
-	cust_name varchar2(20) not null,
-	phone varchar2(13) not null,
-	address varchar2(60),
-	join_date date,
-	stat_fg varchar2(2)
-);
