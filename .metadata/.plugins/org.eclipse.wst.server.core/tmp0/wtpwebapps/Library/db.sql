@@ -1,4 +1,4 @@
-drop table member_tbl_001;
+--drop table member_tbl_001;
 create table member_tbl_001(
 	cust_no number(6) primary key,
 	cust_name varchar2(20) not null,
@@ -126,3 +126,151 @@ select rownum, book_code, book_name, case book_type when 'A' then '에세이' wh
 from book_tbl_001
 
 select sysdate rent_ymd, sysdate+7 close, to_char(nvl(max(rent_no), 0) +1, 'fm0000') from rental_tbl_001 where rent_ymd = sysdate;
+
+
+
+drop table Departments;
+create table Departments (
+    Deptno NUMBER PRIMARY KEY,
+    Deptname VARCHAR2(50),
+    Floor NUMBER
+);
+
+insert into Departments
+values
+('1', '기획', '8');
+
+insert into Departments
+values
+('2', '개발', '10');
+
+insert into Departments
+values
+('3', '영업', '9');
+insert into Departments
+values
+('4', '총무', '9');
+insert into Departments
+values
+(5, '인사', 7);
+insert into DEPARTMENTS
+(Deptno, Deptname)
+values
+(6, '자제');
+
+select * from Deparments;
+
+drop table Empno;
+create table Empno (
+	Empno varchar2(10) primary key,
+	Empname varchar2(4),
+	Title varchar2(2),
+	Salary number(30),
+	Dno number	
+);
+
+insert into Empno
+values
+('1001', '박철수', '대리', '3000000', '1002', 1);
+insert into Empno
+values
+('1002', '이민호', '과장', '3500000', '1003', 3);
+insert into Empno
+values
+('1003', '김영희', '부장', '4000000', '1006', 2);
+insert into Empno
+values
+('1004', '황진희', '대리', '3000000', '1002', 2);
+insert into Empno
+values
+('1005', '정진우', '사원', '2500000', '1004', 1);
+insert into Empno
+values
+('1006', '박현석', '이사', '5500000', null, 1);
+insert into Empno
+values
+('1007', '김정현', '사원', '2500000', '1001', null);
+
+
+
+-- 모든 사원의 직급을 조회하기
+select Title
+from employee
+-- 모든 사원의 직급을 중복 없이 조회하기
+select distinct Title
+from employee
+-- 월급이 300만원~400만원인 사원의 모든 정보 조회하기
+select * from EMPLOYEES where Salary >= 3000000 and Salary <= 4000000;
+
+select * from EMPLOYEES where Salary between 3000000 and 4000000;
+-- 부서코드가 1인 사원의 모든 정보 조회하기
+select * from EMPLOYEES where Dno != 1;
+select * from EMPLOYEES where Dno in 1;
+-- 부서코드가 1이 아닌 사원의 모든정보 조회하기
+select * from EMPLOYEES where Dno != 1;
+-- 부서코드가 1 또는 2인 사원의 모든 정보 조회하기
+select * from EMPLOYEES where Dno = 1 or Dno = 2;
+-- 부서코드가 1또는 2가 아닌 사원의 모든 정보 조회하기
+select * from EMPLOYEES where 1 !== 2;
+
+
+
+select * from EMPLOYEES where empname like '박%';
+select * from EMPLOYEES where empname not like '박%';
+insert into EMPLOYEES (1008, '진효빈', '인턴', '18000000', null, null);
+select * from EMPLOYEES where empname like '%진%';
+
+
+select title, empname, salary from EMPLOYEES where Dno = 1 order by empname desc;
+select title, empname, salary from EMPLOYEES where Dno = 1 order by 2 desc;
+
+
+select title, empname, dno, salary from EMPLOYEES order by dno asc, salary desc;
+select * from (select * from EMPLOYEE order by salary asc) where rownum <= 2;
+
+
+
+select count(*) from employee;
+
+select avg(salary), max(salary) from employee;
+
+select count(distinct salary), avg(distinct salary) from employee;
+
+select count(supervisor) from employee;
+
+delete employee where Empno = 1008;
+update EMPLOYEE set salary = 185500;
+select * from employee where empno = 1008;
+
+--급여의 평균을 소수점 둘째 자리까지 조회하기
+select tp_char(avg(salary), '9999999.99') from employee;
+--급여를 천 단위마다 쉼표 찍어서 조회하기
+select to_char(salary, '9,999,999') from employee;
+
+select to_char(salary , 'fm9,999,999')
+from employee;
+--각 부서별 급여의 합계를 구하기
+select Dno, sum(salary)
+from employee
+group by Dno;
+--각 부서별 사원수 구하기
+select Dno, count(*)
+from employee
+group by Dno;
+--사원수가 2명 이상인 부서에 대해서 부서별 사원수 구하기
+select Dno, count(*)
+from employee
+group by Dno
+having count(*) >= 2
+--부서 번호가 1이 아닌 부서에 대하여 부서별 사원수 구하기
+select count(*)
+from employee
+where Dnp != 1
+group by Dno;
+--평균급여가 300만원을 초과하는 부서에 대하여 부서별 사원수와 평균 급여 구하여 부서별 사원수의 오름차순으로 조회하기
+select Dno, count(*), avg(salary)
+from employee
+group by dno
+having avg(salary) > 30000000
+order by count(*) asc;
+
