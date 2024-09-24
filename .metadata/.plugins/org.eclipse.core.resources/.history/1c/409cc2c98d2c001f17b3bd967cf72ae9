@@ -1,9 +1,0 @@
-package DAO;
-
-import java.sql.Connection;
-
-import utill.DBConnection;
-
-public class CalenderDAO {
-	Connection conn = DBConnection.getConnection();
-}
