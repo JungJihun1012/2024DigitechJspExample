@@ -129,67 +129,69 @@ select sysdate rent_ymd, sysdate+7 close, to_char(nvl(max(rent_no), 0) +1, 'fm00
 
 
 
-drop table Departments;
-create table Departments (
-    Deptno NUMBER PRIMARY KEY,
-    Deptname VARCHAR2(50),
-    Floor NUMBER
+create table department
+(
+    deptno number primary key,
+    deptname varchar(10),
+    floor number
 );
 
-insert into Departments
-values
-('1', '기획', '8');
-
-insert into Departments
-values
-('2', '개발', '10');
-
-insert into Departments
-values
-('3', '영업', '9');
-insert into Departments
-values
-('4', '총무', '9');
-insert into Departments
-values
-(5, '인사', 7);
-insert into DEPARTMENTS
-(Deptno, Deptname)
-values
-(6, '자제');
-
-select * from Deparments;
-
-drop table Empno;
-create table Empno (
-	Empno varchar2(10) primary key,
-	Empname varchar2(4),
-	Title varchar2(2),
-	Salary number(30),
-	Dno number	
+create table employee
+(
+    empno number primary key,
+    empname varchar2(10),
+    title varchar2(10),
+    salary number(8),
+    supervisor number,
+    dno number
 );
 
-insert into Empno
+
+insert into department
+(deptno, deptname, floor)
+values (1, '기획', 8 );
+
+insert into department
 values
-('1001', '박철수', '대리', '3000000', '1002', 1);
-insert into Empno
+(2, '개발', 10);
+
+insert into department
 values
-('1002', '이민호', '과장', '3500000', '1003', 3);
-insert into Empno
+(3, '영업', 9);
+
+insert into department
 values
-('1003', '김영희', '부장', '4000000', '1006', 2);
-insert into Empno
+(4, '총무', 9);
+
+select * from employee;
+
+insert into employee
 values
-('1004', '황진희', '대리', '3000000', '1002', 2);
-insert into Empno
+(1001, '박철수', '대리', 3000000, 1002, 1);
+
+insert into employee
 values
-('1005', '정진우', '사원', '2500000', '1004', 1);
-insert into Empno
+(1002, '이민호', '과장', 3500000, 1003, 3);
+
+insert into employee
 values
-('1006', '박현석', '이사', '5500000', null, 1);
-insert into Empno
+(1003, '김영희', '부장', 4000000, 1006, 2);
+
+insert into employee
 values
-('1007', '김정현', '사원', '2500000', '1001', null);
+(1004, '황진희', '대리', 3000000, 1002, 2);
+
+insert into employee
+values
+(1005, '정진우', '사원', 2500000, 1004, 1);
+
+insert into employee
+values
+(1006, '박현석', '이사', 5500000, null, 1);
+
+insert into employee
+values
+(1007, '김정현', '사원', 2500000, 1001, null);
 
 
 
@@ -274,3 +276,155 @@ group by dno
 having avg(salary) > 30000000
 order by count(*) asc;
 
+select Dno, count(*), avg(salary), max(salary)
+from employee
+where salary <= 5000000 and Dno is not null Dno <> 2
+group by Dno
+having count(*) >= 2;
+
+select Dno from employee where empname = '김영희'
+union
+select Deptno from department where Deptno 
+
+select Deptname name
+from department, employee
+where department Deptno = employee.Dno
+
+
+
+
+
+select e1.empname, e1.empno, e1.title, e2.empname, e2.empno, e2.title
+from employee e1, employee e2
+where e1.title = e2.title
+and e1.empname <> e2.empname
+and e1.empno < e2.empno;
+
+select Dno, Deptname, empname, title
+from employee left outer join department
+on dno = deptno;
+
+
+select e1.empname, e1.title, e2.empname, e2.title
+from employee e1 full outer join employee e2
+on e1.superviser = e2.empno;
+
+-- 부서코드가 1인 직원의 모든 정보 조회하기
+select * from employee where dno = 1;
+-- 기획부인 직원의 모든 정보 조회하기
+select employee * from employee, department where dno = deptno and deptname = '기획';
+-- 부서코드가 1이 아닌 직원의 모든정보 조회하기
+
+-- 기획부가 아닌 직원의 모든 정보 조회하기
+
+-- 부서코드가 1 또는 2인 사원의 모든 정보 조회하기
+
+-- 부서가 '기획' 또는 '개발'인 직원의 모든 정보 조회하기
+
+-- 부서코드가 1또는 2가 아닌 직원의 모든 정보 조회하기
+select * from employee right outer join departmnet d on d.deptname = '개발' or d.dpetname = '기획';
+-- 부서가 '기획' 또는 '개발' 이 아닌 직원의 모든 정보조회하기
+select * from employee where dno != 1 or dno != 2;
+-- 1번 부서에 근무하는 직원들의 직급, 이름, 급여를 검색하여 급여의 오름차순으로 정렬하기
+
+-- 기획부에 근무하는 직원들의 직급, 이름, 급여를 검색하여 급여의 오름차순으로 정렬하기
+
+-- 각 부서별 급여의 한계를 구하
+-- 각 부셔별 사원수 구하기
+select d.deptname, count(e.empno) as employee_count
+from department d
+left outer join employee e on d.deptno = e.dno
+group by d.deptname;
+
+select deptname, count(*) from employee, department where deptno = dno group by deptname;
+-- 각 부서별 급여의 최댓값 구하기
+select deptname, max(salary)
+from department, employee
+where deptno = dno
+group by deptname;
+-- 영업부가 아닌 부서의 사원수와 월급의 한계 구하기
+select count(*), sum(salary)
+from employee, department
+where dno = deptno
+and deptname <> '영업';
+
+
+select title
+from employee
+
+select empno,empname, title, salary, '가장 높은 급여'
+from employee
+where salary = (select max(salary) from employee)
+union all
+select empno, empname, title, salary, '가장 낮은 급여'
+from employee
+where salary = (select min(salary) from employee);
+
+select e.* from employee e
+where e.dno = (select dno from employee where salary = (select max(salary) from employee));
+
+select count(e.empno)
+from department d
+left outer join employee e on d.deptno = e.dno
+where d.floor = 8
+
+select e.*
+from employee e
+where e.dno <> (select dno from employee where empno= e.supervisor)
+and e.supervisor is not null;
+
+select e.*
+from employee e
+where e.dno = (select dno from employee where empno = e.supervisor)
+and e.supervisor is not null;
+
+select sum(salary * 1.15)
+from employee;
+
+select e.empname, d.deptname, e.salary
+from employee e
+join department d on e.dno = d.deptno
+where d.floor = 8 and e.title = '대리';
+
+select title, avg(salary)
+from employee
+group by title;
+
+select avg(e.salary)
+from employee e
+join department d on e.dno = d.deptno
+where d.deptname <> '기획';
+
+select title, avg(salary), count(empno)
+from employee
+group by title
+having sum(salary) = (
+	select max(5500000)
+	from (
+		select sum(salary)
+		from employee
+		group by title
+	)
+)
+
+select e.empname, e2.empname
+from employee e
+left outer join employee e2 on e.supervisor = e2.empno;
+
+select e.empname, d.deptname
+from employee e
+join department d on e.dno = d.deptno;
+
+select e.empname, e2.empname
+from employee e
+left outer join employee e2 on e.empno = e2.supervisor;
+
+	select e.empname
+	from employee e
+	join department d on e.dno = d.deptno
+	where d.deptname in ('기획', '영업');
+
+SELECT e.empname AS 사원이름
+FROM employee e
+JOIN department d ON e.dno = d.deptno
+WHERE d.deptname IN ('기획', '영업');
