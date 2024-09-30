@@ -129,13 +129,14 @@ select sysdate rent_ymd, sysdate+7 close, to_char(nvl(max(rent_no), 0) +1, 'fm00
 
 
 
+drop table department
 create table department
 (
     deptno number primary key,
     deptname varchar(10),
     floor number
 );
-
+drop table employee
 create table employee
 (
     empno number primary key,
@@ -427,4 +428,89 @@ left outer join employee e2 on e.empno = e2.supervisor;
 SELECT e.empname AS 사원이름
 FROM employee e
 JOIN department d ON e.dno = d.deptno
-WHERE d.deptname IN ('기획', '영업');
+WHERE d.deptname IN ('기획', '영업'); 
+
+select * from employee where salary in ((select max(salary) from employee), (select min(salary) from employee))
+
+-- 모든 부서에 속한 사원의 수를 부서명과 사원수로 검색하세요.
+select deptname, count(*)
+from department left outer join employee
+on deptno = dno
+group by deptname
+
+
+-- 8층에 있는 사원수를 검색하시오
+select count(empno)
+from employee, department
+where dno = deptno
+and floor = 8;
+
+-- 상사와 다른 부서에 속한 모든 사원의 정보를 검색하세요
+select e.*
+from employee e, employee s
+where e.supervisor = s.empno
+and s.dno <> e.dno
+
+select sum(salary * 1.15) - sum(salary)
+from employee
+
+
+
+
+-- 황진희와 같은 부서에 근무하는 사원들의 이름과 부서 이름 조회하기
+select empname, deptname
+from employee, department
+where dno = deptno
+and dno in (select dno from employee where empname = '황진희')
+
+-- 부서별 평균급여가 황진희보다 높은 부서에 대하여 부서번호와 평균급여를 조회하기
+select dno, avg(salary)
+from employee
+having avg(salary) > (select salary from employee where empname = '황진희')
+group by dno
+
+-- 각 부서별 급여를 가장 많이 받는 직원 조회하기
+select *
+from employee e1
+where salary = (select max(salary) from employee e2 where e1.dno = e2.dno group by dno)
+-- 부서의 모든 직원이 황진희 보다 월급을 많이 받는 부서의 직원 조회하기
+--select * from employee where salary >all(select salary from employee where empname = '황진희')
+select * from employee e1 where (select salary from employee wher empnamee = '황진희') < all (select salary from employee where e1.dno = e2.dno)
+and dno is not null
+;
+-- 급여가 300만원을 초과하는 직원이 속한 부서와 같은 부서에 근무하는 직원 조회하기
+select *
+from employee
+where dno in (select dno from employee where salary > 3000000);
+
+-- 개발부서의 최대급여보다 많은 급여를 받는 직원 조회하기
+select *
+from employee
+where salary >= (
+	select max(salary)
+	from employee, department
+	where dno = deptno
+	and deptname = '개발'
+);
+-- 개발부서의 급여보다 많은 급여를 받는 직원 조회하기(all)select *
+select *
+from employee
+where salary >= all(
+	select max(salary)
+	from employee, department
+	where dno = deptno
+	and deptname = '개발'
+);
+
+-- 개발부서의 최소급여보다 적은 급여를 받는 직원 조회하기(min 사용하지 않고 해결하기)
+select *
+from employee
+where salary < all(
+	select max(salary)
+	from employee, department
+	where dno = deptno
+	and deptname = '개발'
+);
+
+-- 기획부나 영업부에 근무하는 직원들의 이름과 부서번호를 조회하기
+-- 기획부나 영업부에 근무하지 않는 직원들의 이름과 부서 조회하기
