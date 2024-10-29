@@ -433,7 +433,7 @@ WHERE d.deptname IN ('기획', '영업');
 select * from employee where salary in ((select max(salary) from employee), (select min(salary) from employee))
 
 -- 모든 부서에 속한 사원의 수를 부서명과 사원수로 검색하세요.
-select deptname, count(*)
+select deptname, count(empno)
 from department left outer join employee
 on deptno = dno
 group by deptname
@@ -514,3 +514,142 @@ where salary < all(
 
 -- 기획부나 영업부에 근무하는 직원들의 이름과 부서번호를 조회하기
 -- 기획부나 영업부에 근무하지 않는 직원들의 이름과 부서 조회하기
+
+select dno, sum(salary)
+from employee
+group by rollup(dno)
+
+select dno, title, sum(salary)
+from employee
+group by rollup(dno, title)
+
+select dno, title, sum(salary)
+from employee
+group by rollup(dno) title
+
+-- cube
+
+select dno, sum(salary)
+from employee
+group by cube(dno);
+
+select dno, title, sum(salary)
+from employee
+group by cube(b)
+
+select dno, title, sum(salary)
+from empoloy
+
+--insert
+create table smp
+as
+select * from employee
+
+-- delete emp와 같음
+
+truncate tale = dempertment
+
+
+
+insert into emp()
+
+--insert
+--기본구조
+-- insert into 
+
+--한꺼번에 여러개의 테이블에 여러개의 행을 삽입하는 이유
+
+insert all
+into devpt value(2, '개발', 10)
+into devpt value(1, '개발', 9)
+into devpt value(3, '개발', 8)
+into emp values(1001, '박철수', ;대리, 3000000, 1002, 1)
+select * from all
+l
+insert all
+into emp(empno, empname, salary)
+select empno, empname, salary
+from employee
+where empno > 1001 and empno 1004
+
+-- insert all select from구조에서는 구조만 가져오고 키는 안겨져옴
+-- alter ㅁ여령어로 기본치 
+
+alter table emp
+add foreign key(dno) reference dept (deptno);
+
+alter table dept
+add primary key(deptno);
+
+
+drop table emp;
+drop table dept
+
+create table emp
+as select * from employee;
+
+create table dept
+as select * from department;
+
+-- 기본키 추가
+alter table emp
+add primary key(empno);
+
+alter table dept
+add primary key(deptno);
+
+alter table emp
+add foreign key(dno) references dept(deptno) on delete cascade
+
+alter table emp
+add foreign key(dno) references dept(deptno) on update cascade;
+
+select * from emp;
+
+delete emp
+where dno = 3
+
+select * from dept;
+
+delete dept
+where deptno = 2;
+
+--Update 테이블 이름
+-- SET 속성=값, [ 속성= 값...]
+-- [WHERE 조건]
+
+-- emp테이블의 1번 부서를 5번 부서로 수정하기
+update emp
+set dnp = 5;
+where dno = 1;
+
+select * from emp;
+
+-- 김정현의 부서를 3번 부서로 수정하기
+update emp
+set dno = 3;
+where empname = '김정현';
+
+-- 월급을 10% 인상하기
+
+update emp
+set salary = salary * 1.1
+
+-- 이름에 정이 들어가면 10만월을 더주기
+
+update emp
+set salary = salary + 100000
+where empname like '%정%';
+
+-- 영업부의 월급을 5만원 식감하기
+
+update emp
+set salary - salary - 50000
+where dno in (select deptno from dept where deptname = '영업');
+
+update emp
+inner join department
+on dno = deptno
+set salary = salary - 50000
+where deptname = '영업';
+ 
